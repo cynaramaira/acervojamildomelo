@@ -15,8 +15,8 @@ Aqui você encontrará informações sobre a história deste projeto, nossa miss
 
 Desde 2006, Jamildo Melo tem sido uma voz influente na cobertura política e econômica de Pernambuco. Este acervo digital tem como objetivo reunir e organizar essa rica história de informações, tornando-a acessível a pesquisadores, estudantes e ao público em geral.
 
-Esse é um trabalho colaborativo sem fins lucrativos. 
+Esse é um trabalho colaborativo sem fins lucrativos.
 
 ## Nossa Missão
 
-Nossa missão é garantir acesso digital aos conteúdos publicados no Blog de Jamildo entre os anos de 2006 e maio de 2024, auxiliando o acesso à informação sobre a política e economia de Pernambuco nas primeiras décadas dos anos 2000. 
+Nossa missão é garantir acesso digital aos conteúdos publicados no Blog de Jamildo entre os anos de 2006 e maio de 2024, auxiliando o acesso à informação sobre a política e economia de Pernambuco nas primeiras décadas dos anos 2000.
