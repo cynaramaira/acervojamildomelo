@@ -1,0 +1,28 @@
+{{- /* Este é o seu author.html customizado */}}
+{{- if or .Params.author site.Params.author }}
+    {{- $authorNames := slice }}
+    {{- $configuredAuthor := (.Params.author | default site.Params.author) }}
+
+    {{- /* Handle single author or list of authors */}}
+    {{- $authorType := printf "%T" $configuredAuthor }}
+    {{- if (or (eq $authorType "[]string") (eq $authorType "[]interface {}")) }}
+        {{- $authorNames = $configuredAuthor }}
+    {{- else }}
+        {{- $authorNames = slice $configuredAuthor }}
+    {{- end }}
+
+    {{- range $index, $authorName := $authorNames }}
+        {{- $authorSlug := $authorName | urlize }}
+        {{- $authorPage := site.GetPage (printf "author/%s" $authorSlug) }}
+        
+        {{- if $authorPage }}
+            <a href="{{ $authorPage.RelPermalink }}">{{ $authorName }}</a>
+        {{- else }}
+            {{ $authorName }}
+        {{- end }}
+        
+        {{- if (ne (add $index 1) (len $authorNames)) }}
+            {{- print ", " -}}
+        {{- end }}
+    {{- end }}
+{{- end -}}

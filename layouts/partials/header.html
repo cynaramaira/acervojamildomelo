@@ -1,0 +1,142 @@
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            {{- if site.Params.label.icon }}
+            <a href="{{ "" | absLangURL }}" accesskey="h" title="{{ site.Params.label.text | default site.Title }} (Alt + H)">
+                {{- $img := resources.Get site.Params.label.icon }}
+                {{- if $img }}
+                    {{- $processableFormats := (slice "jpg" "jpeg" "png" "tif" "bmp" "gif" "webp") -}}
+                    {{- if hugo.IsExtended -}}
+                        {{- $processableFormats = $processableFormats | append "webp" -}}
+                    {{- end -}}
+                    {{- $prod := (hugo.IsProduction | or (eq site.Params.env "production")) }}
+                    {{- if and (in $processableFormats $img.MediaType.SubType) (eq $prod true)}}
+                        {{- if site.Params.label.iconHeight }}
+                            {{- $img = $img.Resize (printf "x%d" site.Params.label.iconHeight) }}
+                        {{ else }}
+                            {{- $img = $img.Resize "x30" }}
+                        {{- end }}
+                    {{- end }}
+                    <img src="{{ $img.Permalink }}" alt="{{ site.Params.label.text | default site.Title }}" aria-label="logo"
+                        height="{{- site.Params.label.iconHeight | default "30" -}}">
+                {{- else }}
+                <img src="{{- site.Params.label.icon | absURL -}}" alt="{{ site.Params.label.text | default site.Title }}" aria-label="logo"
+                    height="{{- site.Params.label.iconHeight | default "30" -}}">
+                {{- end -}}
+            </a>
+            {{- else if site.Params.label.iconSVG }}
+            <a href="{{ "" | absLangURL }}" accesskey="h" title="{{ site.Params.label.text | default site.Title }} (Alt + H)">
+                {{ site.Params.label.iconSVG | safeHTML }}
+            </a>
+            {{- else }}
+            <a href="{{ "" | absLangURL }}" accesskey="h" title="{{ site.Title }} (Alt + H)">
+                {{ site.Title }}
+            </a>
+            {{- end }}
+        </div>
+        <ul id="menu">
+            {{- range site.Menus.main }}
+            <li>
+                <a href="{{ .URL | absLangURL }}" title="{{ .Name }}">
+                    <span>{{ .Name }}</span>
+                </a>
+            </li>
+            {{- end }}
+
+            {{- if (ne site.Params.Search false) }}
+            {{/* INICIO DO BLOCO COMENTADO: LINK DE BUSCA (SEARCH) */}}
+            {{/*
+            <li>
+                <a href="{{ "search/" | absLangURL }}" title="Search (Alt + /)" accesskey=/>
+                    <span class="desktop">Search</span>
+                    <span class="mobile">Search</span>
+                </a>
+            </li>
+            */}}
+            {{/* FIM DO BLOCO COMENTADO: LINK DE BUSCA (SEARCH) */}}
+            {{- end }}
+
+            {{- if (eq site.Language.Weight (len site.Languages)) }}
+
+            {{- if (ne site.Params.ThemeToggle false) }}
+            {{/* INICIO DO BLOCO COMENTADO: BOTAO DE MODO NOTURNO (THEME TOGGLE) */}}
+            {{/*
+            <li>
+                <button id="theme-toggle">
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </li>
+            */}}
+            {{/* FIM DO BLOCO COMENTADO: BOTAO DE MODO NOTURNO (THEME TOGGLE) */}}
+            {{- end }}
+
+            {{- else }}
+            {{/* INICIO DO BLOCO COMENTADO: BOTAO DE MODO NOTURNO (THEME TOGGLE) */}}
+            {{/*
+            <li class="lang-switch">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            */}}
+            {{/*FIM DO BLOCO COMENTADO: SEGUNDO BOTAO DE MODO NOTURNO (THEME TOGGLE) */}}
+            {{/* INICIO DO BLOCO COMENTADO: SELETOR DE IDIOMAS */}}
+        {{/*
+        <li>
+            <a href="#" onclick="return false;" class="lang-selector">
+                {{- $lang := site.Language -}}
+                {{- range site.Languages -}}
+                    {{- if eq . $lang -}}
+                        {{- .Lang -}}
+                    {{- end -}}
+                {{- end -}}
+            </a>
+        </li>
+        <li>
+            <ul class="lang-switch-elements">
+                {{- range site.Languages -}}
+                <li>
+                    <a href="{{ .Lang | absLangURL }}">{{ .Lang }}</a>
+                </li>
+                {{- end -}}
+            </ul>
+        </li>
+        */}}
+        {{/* FIM DO BLOCO COMENTADO: SELETOR DE IDIOMAS */}}
+        {{- end }}
+    </ul>
+</nav>
+</header>

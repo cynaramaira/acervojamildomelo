@@ -1,0 +1,126 @@
+{{- define "main" }}
+
+<header class="page-header">
+    <h1>{{- (printf "%s&nbsp;" .Title ) | htmlUnescape -}}
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+    </h1>
+    {{- if .Description }}
+    <div class="post-description">
+        {{ .Description }}
+    </div>
+    {{- end }}
+    {{- if not (.Param "hideMeta") }}
+    <div class="post-meta">
+        {{- partial "translation_list.html" . -}}
+    </div>
+    {{- end }}
+</header>
+
+<div id="searchbox">
+    <input id="searchInput" autofocus placeholder="{{ .Params.placeholder | default (printf "%s ↵" .Title) }}"
+        aria-label="search" type="search" autocomplete="off" maxlength="64">
+    <ul id="searchResults" aria-label="search results"></ul>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // --- Lógica de Inicialização da Busca (já existente, com hash) ---
+        if (window.location.hash && searchInput) {
+            const query = decodeURIComponent(window.location.hash.substring(1));
+            if (query) {
+                searchInput.value = query;
+                setTimeout(() => {
+                    const inputEvent = new Event('input', { bubbles: true });
+                    searchInput.dispatchEvent(inputEvent);
+                    const keyupEvent = new KeyboardEvent('keyup', {
+                        key: 'Enter',
+                        keyCode: 13,
+                        which: 13,
+                        bubbles: true
+                    });
+                    searchInput.dispatchEvent(keyupEvent);
+                }, 150);
+            }
+        }
+
+        // --- LÓGICA DO FILTRO POR ANO ---
+        const selectedYear = getQueryParam('year');
+        console.log('Filtro: Ano selecionado da URL:', selectedYear); // Log 1
+
+        if (selectedYear && selectedYear !== 'all') {
+            function filterResultsByYear(yearToFilter) {
+                console.log('Filtro: Iniciando filtragem para o ano:', yearToFilter); // Log 2
+                const items = searchResults.getElementsByTagName('li');
+                console.log('Filtro: Total de itens de resultado encontrados:', items.length); // Log 3
+
+                if (items.length === 0) {
+                    console.log('Filtro: Nenhum item de resultado encontrado na primeira tentativa. O Observer deve chamar novamente.');
+                    return; 
+                }
+
+                for (let i = 0; i < items.length; i++) {
+                    const item = items[i];
+                    const linkElement = item.querySelector('a'); // Pega o primeiro link dentro do item
+
+                    let itemYear = null;
+                    if (linkElement && linkElement.href) {
+                        const fullHref = linkElement.href;
+                        console.log('Filtro: Analisando href completo do item:', fullHref); // Log 4
+                        
+                        const urlPath = new URL(fullHref).pathname; 
+                        console.log('Filtro: Caminho da URL do item:', urlPath); // Log 5
+                        
+                        // REGEX CORRIGIDA: Agora busca por "/posts/" antes do padrão de data.
+                        const yearMatch = urlPath.match(/^\/posts\/(\d{4})-\d{2}-\d{2}-/); // <-- CORREÇÃO AQUI
+                        
+                        if (yearMatch && yearMatch[1]) {
+                            itemYear = yearMatch[1]; // O primeiro grupo capturado é o ano
+                            console.log('Filtro: Ano EXTRAÍDO do item:', itemYear); // Log 6
+                        } else {
+                            console.log('Filtro: ATENÇÃO! Não foi possível extrair o ano da URL do item. Caminho:', urlPath); // Log 7
+                        }
+                    } else {
+                        console.log('Filtro: ATENÇÃO! Item de resultado sem elemento <a> ou sem href. Item:', item); // Log 8
+                    }
+                    
+                    if (itemYear && itemYear !== yearToFilter) {
+                        item.style.display = 'none'; // Esconde
+                        console.log('Filtro: Escondendo item (ano NÃO CORRESPONDE):', itemYear, 'vs', yearToFilter); // Log 9
+                    } else {
+                        item.style.display = ''; // Mostra
+                        console.log('Filtro: Mostrando item (ano CORRESPONDE ou não filtrado):', itemYear || 'N/A', 'vs', yearToFilter); // Log 10
+                    }
+                }
+            }
+
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                        console.log('Filtro: MutationObserver detectou novos resultados. Reaplicando filtro.'); // Log 11
+                        filterResultsByYear(selectedYear);
+                    }
+                });
+            });
+
+            observer.observe(searchResults, { childList: true, subtree: true });
+
+            setTimeout(() => {
+                filterResultsByYear(selectedYear);
+            }, 200); 
+        }
+    });
+</script>
+
+{{- end }}{{/* end main */}}

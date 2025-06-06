@@ -1,0 +1,103 @@
+baseURL = '/'
+languageCode = 'pt-br'
+title = 'Acervo Jamildo.com'
+summaryLength = 30
+defaultContentLanguage = 'pt-br'
+
+[module] # ADICIONADA: Seção para gerenciar módulos Hugo
+  [[module.imports]]
+    path = "github.com/adityatelange/hugo-PaperMod"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"] # Garante que JSON (para search) é um output de home
+
+[mediaTypes."application/json"]
+  suffixes = ["json"]
+
+# Esta é a configuração PADRÃO e correta para o PaperMod Search.
+[outputFormats.Search]
+  mediaType = "application/json"
+  baseName = "index"
+  isPlainText = true
+  isHTML = false
+
+[params]
+  defaultTheme = "light"
+  showReadTime = true
+  showToc = true
+  disableThemeToggle = true
+  
+  enableSearch = true # MUITO IMPORTANTE: Habilita a busca do PaperMod
+
+  disableAnchoredHeadings = true
+  showAuthor = true # <--- ADICIONE OU MUDE ESTA LINHA PARA TRUE
+  disableSocialIcon = false
+  [params.label]
+    text = "Acervo Jamildo.com"
+    icon = "/images/Acervologo.svg"
+    iconHeight = 100
+
+  [params.homeInfoParams]
+    Title = "Confira 15 anos da política e economia de Pernambuco"
+    Content = "Explore nosso acervo digital com notícias e reportagens de Jamildo Melo entre 2006 e 2024."
+  
+  [[params.homeInfoParams.buttons]]
+    name = "Explorar por Ano"
+    url = "/archives/"
+
+  [params.fuseOpts] # Configurações do Fuse.js para a busca
+    minMatchCharLength = 2
+    keys = ["title", "tags", "categories", "contents"] 
+# Início da seção de Redes Sociais (AGORA CORRETA PARA O PAPERMOD)
+[[params.socialIcons]] # <--- MUDOU AQUI!
+  name = "Twitter"
+  url = "https://twitter.com/blogdejamildo"
+
+[[params.socialIcons]] # <--- MUDOU AQUI!
+  name = "Facebook"
+  url = "https://facebook.com/BlogdeJamildo" 
+
+[[params.socialIcons]] # <--- MUDOU AQUI!
+  name = "Instagram"
+  url = "https://instagram.com/blogdojamildo" 
+
+[[params.socialIcons]] # <--- MUDOU AQUI!
+  name = "Youtube"
+  url = "https://youtube.com/@jamildomelooficial"
+
+# Configuração de Menus (Essenciais para a busca)
+[[menu.main]]
+  identifier = "categories"
+  name = "Categorias"
+  url = "/categories/"
+  weight = 10
+
+[[menu.main]]
+  identifier = "tags"
+  name = "Tags"
+  url = "/tags/"
+  weight = 20
+
+[[menu.main]]
+  identifier = "archives"
+  name = "Arquivo"
+  url = "/archives/"
+  weight = 30
+
+[[menu.main]]
+  identifier = "search"
+  name = "Busca"
+  url = "/search/"
+  weight = 40
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  series = "series"
+  author = "author" 
+
+[Paginator]
+  paginate = 10
+
+[markup.goldmark.renderer]
+  unsafe = true

@@ -1,0 +1,97 @@
+/* Custom CSS para a Imagem de Perfil do Autor */
+.author-profile-image {
+    width: 180px;      /* Ajuste o tamanho da imagem (ex: 180 pixels) */
+    height: 180px;     /* Manter a altura igual à largura para um círculo perfeito */
+    border-radius: 50%; /* Torna a imagem circular (use 50% para um círculo) */
+    object-fit: cover;  /* Importante para cortar a imagem se ela não for quadrada, evitando distorções */
+    border: 4px solid #ff0000; /* Borda da imagem (VERMELHO) */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+    flex-shrink: 0;
+}
+
+/* CSS para o Cabeçalho da Página do Autor (Flexbox Container) */
+.page-header {
+    display: flex; /* Transforma o cabeçalho em um container flexbox */
+    align-items: flex-start; /* Alinha os itens (imagem e bloco de texto) ao topo verticalmente */
+    gap: 20px; /* Adiciona um espaço de 20px entre a imagem e o bloco de texto */
+    padding-bottom: 20px; /* Adiciona um pouco de espaço abaixo do cabeçalho */
+    text-align: left; 
+}
+
+/* CSS para o Conteúdo de Texto do Autor */
+.author-text-content-wrapper {
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+    text-align: left; 
+}
+
+/* Ajustes finos para o título e descrição */
+.author-text-content-wrapper h1 {
+    margin-top: 0;      
+    margin-bottom: 5px; 
+    padding: 0;         
+    line-height: 1.2;   
+    /* A cor específica para o h1 do autor foi removida daqui,
+       pois será coberta pela regra geral para todos os títulos abaixo. */
+}
+
+.post-description {
+    font-size: 1.05em; 
+    color: #024796; /* Cor da descrição do autor (AZUL ESCURO) - mantém, pois não é um título */
+    margin: 0; 
+    padding: 0; 
+}
+
+/* ========================================================================
+   ESTILOS RESPONSIVOS
+   ========================================================================
+*/
+@media (max-width: 768px) { 
+    .page-header {
+        flex-direction: column; 
+        align-items: center; 
+        gap: 15px; 
+    }
+
+    .author-profile-image {
+        margin: 0 auto 15px auto; 
+        width: 120px;
+        height: 120px;
+    }
+
+    .author-text-content-wrapper {
+        text-align: center; 
+        padding: 0 15px; 
+    }
+    
+    .author-text-content-wrapper h1,
+    .post-description {
+        text-align: center; 
+    }
+}
+
+/* ========================================================================
+   NOVOS ESTILOS GERAIS PARA TÍTULOS E LINKS ESPECÍFICOS
+   ========================================================================
+*/
+
+/* Garante que QUALQUER H1, H2, H3, H4, H5, H6 fiquem AZUIS */
+h1, h2, h3, h4, h5, h6 {
+    color: #024796; /* AZUL ESCURO para todos os títulos */
+}
+
+/* Cor dos LINKS DENTRO DOS POSTS (ex: link "leia mais" ou links no resumo) */
+article a {
+    color: #f73c02; /* LARANJA AVERMELHADO para links dentro dos posts */
+    text-decoration: none; /* Remove o sublinhado padrão */
+}
+
+/* Estilo para links dentro de posts ao passar o mouse (hover) */
+article a:hover {
+    text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
+    opacity: 0.8; /* Pequena opacidade para efeito de hover */
+}
+
+/* Se precisar estilizar links fora de artigos (menu, rodapé), pode precisar de mais regras. */
