@@ -1,4 +1,4 @@
-baseURL = 'https://cynaramaira.github.io/acervojamildomelo/'
+baseURL = 'https://acervojamildo.com/'
 languageCode = 'pt-br'
 title = 'Acervo Jamildo.com'
 summaryLength = 30
@@ -34,7 +34,7 @@ defaultContentLanguage = 'pt-br'
   disableSocialIcon = false
   [params.label]
     text = "Acervo Jamildo.com"
-    icon = "{{ "images/Acervologo.svg" | absURL }}"
+    icon = "/images/Acervologo.svg"
     iconHeight = 100
 
   [params.homeInfoParams]
